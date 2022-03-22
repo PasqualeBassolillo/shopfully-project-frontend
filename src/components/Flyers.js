@@ -83,7 +83,7 @@ class Flyers extends React.Component {
                     hasMore={this.state.hasMore}
                     onWishlistChange={this.onWishlistChange.bind(this)} />
                 )
-              } else if (this.state.flyers.length > 0 && !this.state.isLoading) {
+              } else if (this.state.flyers.length < 1 && !this.state.isLoading) {
                 return (
                   <EmptyState />
                 )
