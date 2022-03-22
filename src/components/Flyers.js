@@ -28,7 +28,7 @@ class Flyers extends React.Component {
   }
 
   getFlyers() {
-    const path = '/flyers?page=' + this.state.page + "&limit=10";
+    const path = '/flyers?page=' + this.state.page + "&limit=100";
 
     fetch(process.env.REACT_APP_SERVER_URL + path)
       .then(response => {
