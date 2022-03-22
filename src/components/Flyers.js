@@ -37,6 +37,9 @@ class Flyers extends React.Component {
         if (response.ok)
           // for spinner loader
           window.componentHandler.upgradeAllRegistered();
+          this.setState({
+            isLoading: true,
+          });
 
         return response.json();
         throw new Error('Request failed.');
@@ -47,7 +50,8 @@ class Flyers extends React.Component {
           flyers: [...this.state.flyers, ...results.data],
           pagination: results.pagination,
           hasMore: results.pagination.next !== '',
-          page: this.state.page + 1
+          page: this.state.page + 1,
+          isLoading: false,
         });
 
       })
@@ -83,7 +87,7 @@ class Flyers extends React.Component {
                     hasMore={this.state.hasMore}
                     onWishlistChange={this.onWishlistChange.bind(this)} />
                 )
-              } else if (this.state.flyers.length < 1 && !this.state.isLoading) {
+              } else if (this.state.flyers.length === 0 && !this.state.isLoading) {
                 return (
                   <EmptyState />
                 )
