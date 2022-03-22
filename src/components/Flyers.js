@@ -1,6 +1,7 @@
 import React from 'react';
 import FlyersGrid from './FlyersGrid';
-import Warning from './Warning';
+import ErrorState from './ErrorState';
+import EmptyState from './EmptyState';
 
 class Flyers extends React.Component {
 
@@ -24,11 +25,12 @@ class Flyers extends React.Component {
   componentDidMount() {
     // fetch data from api and set page for infinite scroll
     this.getFlyers();
+    // for material design loader component
     window.componentHandler.upgradeAllRegistered()
   }
 
   getFlyers() {
-    const path = '/flyers?page=' + this.state.page + "&limit=100";
+    const path = '/flyers?page=' + this.state.page + '&limit=100';
 
     fetch(process.env.REACT_APP_SERVER_URL + path)
       .then(response => {
@@ -70,7 +72,7 @@ class Flyers extends React.Component {
           {(() => {
             if(this.state.error.length > 0) {
               return (
-                <Warning reconnect={this.getFlyers} type='error'/>
+                <ErrorState reconnect={this.getFlyers} />
               )
             } else {
               if (this.state.flyers.length > 0 ) {
@@ -83,7 +85,7 @@ class Flyers extends React.Component {
                 )
               } else if (this.state.flyers.length > 0 && !this.state.isLoading) {
                 return (
-                  <Warning type='empty'/>
+                  <EmptyState />
                 )
               }
             }

@@ -44,6 +44,11 @@ main.mdl-layout__content {
   height: 100%;
 }
 
+.mdl-layout__obfuscator.is-visible {
+  position: fixed;
+  height: 100%;
+}
+
 /* class to fix element at center page */
 
 .element-fixed--center {
