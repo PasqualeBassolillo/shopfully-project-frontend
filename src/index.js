@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import '../node_modules/material-design-lite/material.min.css';
+import '..//node_modules/material-design-lite/material.min.js';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

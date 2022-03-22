@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Flyers from './components/Flyers';
+import Header from './components/Header';
+import { getItem } from "./utils/storage";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component{
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      wishlist: getItem('FAVOURITES_LIST'),
+    };
+  }
+
+  onWishlistChange(items) {
+      this.setState({wishlist : items})
+  }
+
+  render () {
+    return (
+      <div className="App">
+        <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+          <Header getWishlist={this.state.wishlist}
+            onWishlistChange={this.onWishlistChange.bind(this)}
+          />
+          <Flyers onWishlistChange={this.onWishlistChange.bind(this)} />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
