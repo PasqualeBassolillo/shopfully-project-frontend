@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Flyers from './components/Flyers';
+import FlyerDetails from './components/FlyerDetails';
 import Header from './components/Header';
 import { getItem } from "./utils/storage";
 
-class App extends Component{
+class App extends Component {
   constructor(props) {
     super(props);
 
@@ -13,18 +15,24 @@ class App extends Component{
   }
 
   onWishlistChange(items) {
-      this.setState({wishlist : items})
+    this.setState({ wishlist: items })
   }
 
-  render () {
+  render() {
     return (
       <div className="App">
-        <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-          <Header getWishlist={this.state.wishlist}
-            onWishlistChange={this.onWishlistChange.bind(this)}
-          />
-          <Flyers onWishlistChange={this.onWishlistChange.bind(this)} />
-        </div>
+        <Router>
+          <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <Header 
+              getWishlist={this.state.wishlist}
+              onWishlistChange={this.onWishlistChange.bind(this)}
+            />
+            <Routes>
+              <Route path="/" element={<Flyers onWishlistChange={this.onWishlistChange.bind(this)} />} />
+              <Route path="/flyers/:id" element={<FlyerDetails />} />
+            </Routes>
+          </div>
+        </Router>
       </div>
     );
   }

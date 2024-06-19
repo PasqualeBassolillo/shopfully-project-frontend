@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import PlaceholderImage from '../assets/img/placeholder-user.png';
 import { FaHeart } from "react-icons/fa";
 import { getItem } from "../utils/storage";
+import withNavigate from '../utils/withNavigate';
 
 class Header extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      wishlist : this.props.getWishlist,
+      wishlist: this.props.getWishlist,
     }
+
+    this.navigateToHome = this.navigateToHome.bind(this)
   }
 
-  renderList () {
+  renderList() {
     this.props.getWishlist.map(item => {
       return (
         <li key={item.id} className="item">
@@ -22,13 +25,23 @@ class Header extends Component {
       )
     })
   }
-  
+
+  navigateToHome() {
+    this.props.navigate('/');
+  }
+
   render() {
     return (
       <>
         <header className="mdl-layout__header">
           <div className="mdl-layout__header-row">
-            <span className="mdl-layout-title">ShopFully</span>
+            <span
+              className="mdl-layout-title"
+              onClick={this.navigateToHome}
+              style={{ cursor: 'pointer' }}
+            >
+              ShopFully
+            </span>
           </div>
         </header>
         <div className="mdl-layout__drawer">
@@ -47,7 +60,7 @@ class Header extends Component {
             <nav className="mdl-navigation">
               <ul className="navigation__list">
                 {
-                 (this.props.getWishlist.length > 0) ?
+                  (this.props.getWishlist.length > 0) ?
                     this.props.getWishlist.map(item => {
                       return (
                         <li key={item.id} className="item">
@@ -56,10 +69,10 @@ class Header extends Component {
                         </li>
                       )
                     })
-                  :
-                  <li >
-                    <span className="item__title">Non ci sono preferiti</span>
-                  </li>
+                    :
+                    <li >
+                      <span className="item__title">Non ci sono preferiti</span>
+                    </li>
                 }
               </ul>
             </nav>
@@ -70,4 +83,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withNavigate(Header);

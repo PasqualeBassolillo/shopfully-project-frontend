@@ -71,6 +71,7 @@ Now we are ready to go! The APIs are accessible at [http://localhost:3000/](http
 # Conclusion
 
 With the frontend application up and running, you can now access and interact with the flyers data retrieved from the backend API at [http://localhost:8000](http://localhost:8000). This setup provides a seamless experience for viewing and managing promotional flyers, including adding them to your favorites.
+By clicking on the title of a flyer, you can view its detailed information.
 The frontend application is accessible at [http://localhost:3000](http://localhost:3000).
 
 Thank you for using the Shopfully Frontend application!

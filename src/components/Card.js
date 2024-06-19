@@ -3,6 +3,7 @@ import { FaHeart } from "react-icons/fa";
 import { getItem, setItem } from "../utils/storage";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import withNavigate from '../utils/withNavigate';
 
 class Card extends React.Component {
   constructor(props) {
@@ -17,71 +18,80 @@ class Card extends React.Component {
     this.addToFav.bind(this);
   }
 
-  addToFav (item) {
+  addToFav(item) {
     var wishlist = getItem('FAVOURITES_LIST');
-    
-    if(wishlist.length === 0) {
+
+    if (wishlist.length === 0) {
       wishlist.push(item);
 
-      this.setState({isInWishlist : true});
+      this.setState({ isInWishlist: true });
     } else {
       const found = wishlist.find(element => {
-          return element.id === item.id;
+        return element.id === item.id;
       });
 
-      if(found) {
+      if (found) {
         var updateWishlist = wishlist.filter(favourite => {
           return item.id !== favourite.id;
         })
         wishlist = updateWishlist;
-        this.setState({isInWishlist : false})
+        this.setState({ isInWishlist: false })
 
       } else {
         wishlist.push(item);
-        this.setState({isInWishlist : true})
+        this.setState({ isInWishlist: true })
       }
     }
-    
+
     this.props.onWishlistChange(wishlist);
     setItem('FAVOURITES_LIST', wishlist)
   }
 
-  isInWishlist (item) {
+  isInWishlist(item) {
     var wishlist = getItem('FAVOURITES_LIST');
 
     if (wishlist !== null) {
       var found = wishlist.find(element => {
         return element.id === item.id;
       });
-      return found; 
+      return found;
     }
   }
-  
+
+  navigateToDetails(id) {
+    this.props.navigate(`/flyers/${id}`);
+  };
+
+
   render() {
     return (
       <>
         <div className="item-card demo-card-square mdl-shadow--2dp">
           <div className="mdl-card__image mdl-card--expand">
-            <LazyLoadImage src={`https://picsum.photos/${this.state.width}/${this.state.height}?random=${this.props.item.id}`} 
-                 alt={this.props.item.title}
-                 effect="blur"
-                />
+            <LazyLoadImage src={`https://picsum.photos/seed/${this.props.item.id}/${this.state.width}/${this.state.height}`}
+              alt={this.props.item.title}
+              effect="blur"
+            />
           </div>
-          
+
           <div className="mdl-card__supporting-detail mdl-card__supporting-text">
             <div className="mdl-card__span text--uppercase mdl-color-text--black mdl-typography--caption">
               <span>{this.props.item.retailer}</span>
             </div>
             <div className="mdl-card__text mdl-typography--font-bold">
-              <h2 className="mdl-card__title title--small">{this.props.item.title}</h2>
+              <h2
+                className="mdl-card__title title--small"
+                onClick={() => this.navigateToDetails(this.props.item.id)}
+                style={{ cursor: 'pointer' }}
+              >{this.props.item.title}</h2>
             </div>
             <div className="mdl-card__span mdl-typography--caption">
               <span>{this.props.item.category}</span>
             </div>
             <div className="mdl-card__action">
-              <span onClick={() => {this.addToFav(this.props.item)}}
-                    className={(this.state.isInWishlist ? 'active' : '')}
-                    >
+              <span onClick={() => { this.addToFav(this.props.item) }}
+                className={(this.state.isInWishlist ? 'active' : '')}
+              >
                 <FaHeart />
               </span>
             </div>
@@ -93,4 +103,4 @@ class Card extends React.Component {
   }
 }
 
-export default Card;
+export default withNavigate(Card);
